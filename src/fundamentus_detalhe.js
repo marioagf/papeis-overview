@@ -4,10 +4,10 @@ const moment = require('moment');
 const util = require('util');
 
 (async () => {
-    const browser = await puppeteer.launch();
-    var page = await browser.newPage();
+    const fundamentusdet = await puppeteer.launch();
+    var page = await fundamentusdet.newPage();
     await page.goto('http://www.fundamentus.com.br/detalhes.php?papel=PETR3', {waitUntil: 'load'});
-    const newPage = await page.evaluate(() => {
+    const fundamentusdet_html = await page.evaluate(() => {
         var tabelas =  document.getElementsByClassName("w728");
         var array_tabelas_html = []
         for (var i = 0; i < tabelas.length; i++) {
@@ -19,8 +19,8 @@ const util = require('util');
     var arrorg = [];
 
     var obj_indicador = {};
-    for (var i = 0; i < newPage.length; i++) {
-        var tabela_html = newPage[i];
+    for (var i = 0; i < fundamentusdet_html.length; i++) {
+        var tabela_html = fundamentusdet_html[i];
 
         if(i == 0 || i == 1){
             tabela_html = tabela_html.replace('<table class="w728">', '<table class="w728"><thead><th>Chave1</th><th>Valor1</th><th>Chave2</th><th>Valor2</th></thead>')
@@ -64,7 +64,6 @@ const util = require('util');
             tabela_html = tabela_html.replace(/(\r\n|\n|\r)/gm, "");
             tabela_html = tabela_html.replace("<tr></tr>", "");
             tabela_html = tabela_html.replace('<table class="w728">', '<table class="w728"><thead><th>Chave1</th><th>Valor1</th><th>Chave2</th><th>Valor2</th></thead>')
-            console.log(tabela_html);
             var jsontables = HtmlTableToJson.parse(tabela_html);
             for (const indicador of jsontables._results[0]) {
                 obj_indicador["Demonst Result. 12 MESES: "+indicador.Chave1.replace("?", "")] = indicador.Valor1;
@@ -74,6 +73,6 @@ const util = require('util');
         }
     }
     console.log(obj_indicador);
-    browser.close();
+    fundamentusdet.close();
 
 })();

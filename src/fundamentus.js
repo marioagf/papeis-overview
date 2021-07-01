@@ -4,16 +4,16 @@ const moment = require('moment');
 const util = require('util');
 
 (async () => {
-    const browser = await puppeteer.launch();
-    var page = await browser.newPage();
+    const fundamentus = await puppeteer.launch();
+    var page = await fundamentus.newPage();
     await page.goto('http://www.fundamentus.com.br/resultado.php', {waitUntil: 'load'});
-    const newPage = await page.evaluate(() => {
+    const fundamentus_html = await page.evaluate(() => {
         return  document.getElementById("resultado").outerHTML;
     });
 
     var arrorg = [];
 
-    var jsontables = HtmlTableToJson.parse(newPage);
+    var jsontables = HtmlTableToJson.parse(fundamentus_html);
     for (const item of jsontables._results[0]){
         var papel_obj = {};
         papel_obj.papel             = item['Papel'];
@@ -38,9 +38,8 @@ const util = require('util');
         papel_obj.cresc_rec_5a      = parseFloat(item['Cresc. Rec.5a'].split('.').join('').replace(',','.'))/100;
         papel_obj.periodo           = moment().format('MM-YYYY');
         arrorg.push(papel_obj);
-        // console.log(papel_obj);
     }
-    browser.close();
+    fundamentus.close();
     arrorg.sort(function (a, b) {
         if (a.patrim_liq > b.patrim_liq) return 1;
         if (a.patrim_liq < b.patrim_liq) return -1;
