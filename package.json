@@ -1,0 +1,28 @@
+{
+  "name": "teste-b3",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "mvrio",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.12.26",
+    "javascript-obfuscator": "^0.27.2",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "html-table-to-json": "^1.0.0",
+    "htmlparser": "^1.7.7",
+    "moment": "^2.29.1",
+    "puppeteer": "^10.1.0",
+    "request": "^2.88.2",
+    "ts-node": "^10.0.0",
+    "util": "^0.12.4"
+  },
+  "scripts": {
+    "start": "ts-node ./src/b3.js"
+  }
+}
