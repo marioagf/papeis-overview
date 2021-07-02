@@ -16,8 +16,6 @@ const util = require('util');
         return array_tabelas_html;
     });
 
-    var arrorg = [];
-
     var obj_indicador = {};
     for (var i = 0; i < fundamentusdet_html.length; i++) {
         var tabela_html = fundamentusdet_html[i];
@@ -69,7 +67,6 @@ const util = require('util');
                 obj_indicador["Demonst Result. 12 MESES: "+indicador.Chave1.replace("?", "")] = indicador.Valor1;
                 obj_indicador["Demonst Result. 03 MESES: "+indicador.Chave2.replace("?", "")] = indicador.Valor2;
             }
-            // console.log(jsontables._results[0]);
         }
     }
     console.log(obj_indicador);

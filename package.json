@@ -23,6 +23,6 @@
     "util": "^0.12.4"
   },
   "scripts": {
-    "start": "ts-node ./src/fundamentus_detalhe.js"
+    "start": "ts-node ./src/fundamentus.js"
   }
 }
