@@ -17,7 +17,7 @@ const util = require('util');
     var cont = 0;
     for (const item of jsontables._results[0]){
         cont++;
-        if(cont > 2) break;
+        if(cont > 25) break;
         var papel_obj = {};
         papel_obj.papel             = item['Papel'];
         papel_obj.cotacao           = parseFloat(item['Cotação'].replace('.', '').split('.').join('').replace(',','.'));
@@ -53,18 +53,87 @@ const util = require('util');
         console.log('Carregando detalhe: '+arrorg[i].papel)
         var papel_detalhe = await detalhe(arrorg[i].papel);
         arrorg[i].detalhes_temp = papel_detalhe;
-        arrorg[i].detalhes = {};
+        arrorg[i].detalhes = {info:{}, balanco:{}, demons:{}, oscilacoes: {}, fund: {}};
 
-        arrorg[i].detalhes.nome_papel = arrorg[i].detalhes_temp['Detalhes: Papel'];
-        arrorg[i].detalhes.cotacao = parseFloat(arrorg[i].detalhes_temp['Detalhes: Cotação'].split('.').join('').replace(',','.'));
-        arrorg[i].detalhes.tipo = arrorg[i].detalhes_temp['Detalhes: Tipo'];
-        arrorg[i].detalhes.data_ult_cotacao = arrorg[i].detalhes_temp['Detalhes: Data últ cot'];
-        arrorg[i].detalhes.nome_empresa = arrorg[i].detalhes_temp['Detalhes: Empresa'];
-        arrorg[i].detalhes.setor = arrorg[i].detalhes_temp['Detalhes: Setor'];
-        arrorg[i].detalhes.subsetor = arrorg[i].detalhes_temp['Detalhes: Subsetor'];
+        // detalhes padrão
+        arrorg[i].detalhes.info.nome_papel = arrorg[i].detalhes_temp['Detalhes: Papel'];
+        arrorg[i].detalhes.info.cotacao = parseFloat(arrorg[i].detalhes_temp['Detalhes: Cotação'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.info.tipo = arrorg[i].detalhes_temp['Detalhes: Tipo'];
+        arrorg[i].detalhes.info.data_ult_cotacao = arrorg[i].detalhes_temp['Detalhes: Data últ cot'];
+        arrorg[i].detalhes.info.data_ult_balanco = arrorg[i].detalhes_temp['Detalhes: Últ balanço processado'];
+        arrorg[i].detalhes.info.nome_empresa = arrorg[i].detalhes_temp['Detalhes: Empresa'];
+        arrorg[i].detalhes.info.setor = arrorg[i].detalhes_temp['Detalhes: Setor'];
+        arrorg[i].detalhes.info.subsetor = arrorg[i].detalhes_temp['Detalhes: Subsetor'];
+        arrorg[i].detalhes.info.min_52_semanas = parseFloat(arrorg[i].detalhes_temp['Detalhes: Min 52 sem'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.info.max_52_semanas = parseFloat(arrorg[i].detalhes_temp['Detalhes: Max 52 sem'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.info.vol_medio_2_meses = parseFloat(arrorg[i].detalhes_temp['Detalhes: Vol $ méd (2m)'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.info.valor_mercado = parseFloat(arrorg[i].detalhes_temp['Detalhes: Valor de mercado'].split('.').join('').replace(',','.'));        
+        arrorg[i].detalhes.info.valor_firma = parseFloat(arrorg[i].detalhes_temp['Detalhes: Valor da firma'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.info.nro_acoes = parseFloat(arrorg[i].detalhes_temp['Detalhes: Nro. Ações'].split('.').join('').replace(',','.'));
 
-        arrorg[i].detalhes.min_52_semanas = arrorg[i].detalhes_temp['Detalhes: Min 52 sem'];
-        arrorg[i].detalhes.max_52_semanas = arrorg[i].detalhes_temp['Detalhes: Max 52 sem'];
+        // balanço patrimonial
+        arrorg[i].detalhes.balanco.ativo_circ = parseFloat(arrorg[i].detalhes_temp['Balanço Patr.: Ativo Circulante'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.balanco.ativo = parseFloat(arrorg[i].detalhes_temp['Balanço Patr.: Ativo'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.balanco.disponibilidades = parseFloat(arrorg[i].detalhes_temp['Balanço Patr.: Disponibilidades'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.balanco.div_bruta = parseFloat(arrorg[i].detalhes_temp['Balanço Patr.: Dív. Bruta'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.balanco.div_liq = parseFloat(arrorg[i].detalhes_temp['Balanço Patr.: Dív. Líquida'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.balanco.patrimonio_liq = parseFloat(arrorg[i].detalhes_temp['Balanço Patr.: Patrim. Líq'].split('.').join('').replace(',','.'));
+
+        // demonstrativo 
+        arrorg[i].detalhes.demons.ebit_03_meses = parseFloat(arrorg[i].detalhes_temp['Demonst Result. 03 MESES: EBIT'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.demons.ebit_03_lucro_liq = parseFloat(arrorg[i].detalhes_temp['Demonst Result. 03 MESES: Lucro Líquido'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.demons.ebit_03_receita_liq = parseFloat(arrorg[i].detalhes_temp['Demonst Result. 03 MESES: Receita Líquida'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.demons.ebit_12_meses = parseFloat(arrorg[i].detalhes_temp['Demonst Result. 12 MESES: EBIT'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.demons.ebit_12_lucro_liq = parseFloat(arrorg[i].detalhes_temp['Demonst Result. 12 MESES: Lucro Líquido'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.demons.ebit_12_receita_liq = parseFloat(arrorg[i].detalhes_temp['Demonst Result. 12 MESES: Receita Líquida'].split('.').join('').replace(',','.'));
+
+        // oscilações
+        arrorg[i].detalhes.oscilacoes.dia = parseFloat(arrorg[i].detalhes_temp['Oscilações: Dia'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.oscilacoes.mes = parseFloat(arrorg[i].detalhes_temp['Oscilações: Mês'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.oscilacoes.ult_30_dias = parseFloat(arrorg[i].detalhes_temp['Oscilações: 30 dias'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.oscilacoes.ult_12_meses = parseFloat(arrorg[i].detalhes_temp['Oscilações: 12 meses'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2021'])
+            arrorg[i].detalhes.oscilacoes.ano_2021 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2021'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2020'])
+            arrorg[i].detalhes.oscilacoes.ano_2020 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2020'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2019'])
+            arrorg[i].detalhes.oscilacoes.ano_2019 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2018'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2018'])
+            arrorg[i].detalhes.oscilacoes.ano_2018 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2017'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2017'])
+            arrorg[i].detalhes.oscilacoes.ano_2017 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2017'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2016'])
+            arrorg[i].detalhes.oscilacoes.ano_2016 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2016'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2015'])
+            arrorg[i].detalhes.oscilacoes.ano_2017 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2015'].split('.').join('').replace(',','.'))/100;
+        if(arrorg[i].detalhes_temp['Oscilações: 2014'])
+            arrorg[i].detalhes.oscilacoes.ano_2017 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2014'].split('.').join('').replace(',','.'))/100;
+
+        // indicadores fundamentalistas
+        arrorg[i].detalhes.fund.cresc_5_anos = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Cres. Rec (5a)'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.fund.div_bruta_por_patrim_liq = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Div Br/ Patrim'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.dividend_yield = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Div. Yield'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.ebit_por_ativo = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: EBIT / Ativo'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.enter_value_por_ebit = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: EV / EBIT'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.enter_value_por_ebitda = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: EV / EBITDA'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.giro_ativos = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Giro Ativos'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.liq_corrente = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Liquidez Corr'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.lucro_por_acao = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: LPA'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.margem_bruta = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Marg. Bruta'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.fund.margem_ebit = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Marg. EBIT'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.fund.margem_liq = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Marg. Líquida'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.fund.roe = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: ROE'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.fund.roic = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: ROIC'].split('.').join('').replace(',','.'))/100;
+        arrorg[i].detalhes.fund.vpa = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: VPA'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.preco_acao_por_lucro = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: P/L'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.preco_acao_por_valor_patrim = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: P/VP'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.preco_acao_por_ebit = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: P/EBIT'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.price_sales_ratio = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: PSR'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.preco_acao_por_ativos_totais = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: P/Ativos'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.preco_acao_por_ativos_circ = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: P/Ativ Circ Liq'].split('.').join('').replace(',','.'));
+        arrorg[i].detalhes.fund.preco_acao_por_capital_giro = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: P/Cap. Giro'].split('.').join('').replace(',','.'));
+        
+        delete arrorg[i].detalhes_temp;
     }
 
     console.log(util.inspect(arrorg, {showHidden: false, depth: null, maxArrayLength: null}))
