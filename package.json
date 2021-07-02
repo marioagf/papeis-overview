@@ -17,6 +17,7 @@
     "html-table-to-json": "^1.0.0",
     "htmlparser": "^1.7.7",
     "moment": "^2.29.1",
+    "mongodb": "^3.6.9",
     "puppeteer": "^10.1.0",
     "request": "^2.88.2",
     "ts-node": "^10.0.0",
