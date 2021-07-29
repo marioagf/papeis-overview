@@ -107,8 +107,8 @@ MongoClient.connect(url, function(err, db) {
                 if(arrorg[i].detalhes_temp['Oscilações: 2018'])     arrorg[i].detalhes.oscilacoes.ano_2018 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2017'].split('.').join('').replace(',','.'))/100;
                 if(arrorg[i].detalhes_temp['Oscilações: 2017'])     arrorg[i].detalhes.oscilacoes.ano_2017 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2017'].split('.').join('').replace(',','.'))/100;
                 if(arrorg[i].detalhes_temp['Oscilações: 2016'])     arrorg[i].detalhes.oscilacoes.ano_2016 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2016'].split('.').join('').replace(',','.'))/100;
-                if(arrorg[i].detalhes_temp['Oscilações: 2015'])     arrorg[i].detalhes.oscilacoes.ano_2017 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2015'].split('.').join('').replace(',','.'))/100;
-                if(arrorg[i].detalhes_temp['Oscilações: 2014'])     arrorg[i].detalhes.oscilacoes.ano_2017 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2014'].split('.').join('').replace(',','.'))/100;
+                if(arrorg[i].detalhes_temp['Oscilações: 2015'])     arrorg[i].detalhes.oscilacoes.ano_2015 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2015'].split('.').join('').replace(',','.'))/100;
+                if(arrorg[i].detalhes_temp['Oscilações: 2014'])     arrorg[i].detalhes.oscilacoes.ano_2014 = parseFloat(arrorg[i].detalhes_temp['Oscilações: 2014'].split('.').join('').replace(',','.'))/100;
         
                 // indicadores fundamentalistas
                 if(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Cres. Rec (5a)'])     arrorg[i].detalhes.fund.cresc_5_anos = parseFloat(arrorg[i].detalhes_temp['Indicadores fundamentalistas: Cres. Rec (5a)'].split('.').join('').replace(',','.'))/100;
